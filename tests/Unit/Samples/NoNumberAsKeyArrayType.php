@@ -1,0 +1,21 @@
+<?php declare(strict_types=1);
+
+namespace Hansel23\Types\Tests\Unit\Samples;
+
+use Hansel23\Types\AbstractArrayType;
+
+class NoNumberAsKeyArrayType extends AbstractArrayType
+{
+	public static function isValid( array $genericArray ): bool
+	{
+		foreach ( $genericArray as $key => $value )
+		{
+			if ( is_numeric( $key ) )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+}

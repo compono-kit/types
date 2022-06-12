@@ -1,0 +1,47 @@
+{
+	"name": "hansel23/types",
+	"description": "Basic type classes wrapping scalar values to create types in applications.",
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "Benjamin Bruska",
+			"email": "benjamin.bruska@hansel23.com"
+		}
+	],
+	"require": {
+		"php": ">=7.4",
+		"ext-json": "*"
+	},
+	"require-dev": {
+		"tm/tooly-composer-script": "^1.4.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"Hansel23\\Types\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Hansel23\\Types\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"post-install-cmd": "Tooly\\ScriptHandler::installPharTools",
+		"post-update-cmd": "Tooly\\ScriptHandler::installPharTools"
+	},
+	"extra": {
+		"tools": {
+			"phpunit": {
+				"url": "https://phar.phpunit.de/phpunit-9.phar",
+				"only-dev": true,
+				"force-replace": true
+			},
+			"phpmetrics": {
+				"url": "https://github.com/phpmetrics/PhpMetrics/releases/download/v2.3.2/phpmetrics.phar",
+				"only-dev": true
+			}
+		}
+	}
+}
