@@ -1,92 +1,157 @@
-# Types
-[![Build Status branch master](https://circleci.com/gh/hansel23/types/tree/master.svg?style=svg&circle-token=587e804d51907ff65998555361c338c32764c381)](https://circleci.com/gh/hansel23/types/tree/master)
-[![Build Status branch development](https://circleci.com/gh/hansel23/types/tree/development.svg?style=svg&circle-token=587e804d51907ff65998555361c338c32764c381)](https://circleci.com/gh/hansel23/types/tree/development)
-![Code Coverage](https://img.shields.io/static/v1?label=coverage&message=87.33%&color=green)
-![Last Commit](https://badgen.net/github/last-commit/hansel23/types)
-![Dependencies](https://badgen.net/github/dependents-repo/hansel23/types)
-![Latest release](https://badgen.net/github/release/hansel23/types)
+# ComponoKit / Types
 
+**Strongly typed value objects for PHP 8+**
 
-## Beschreibung
+This package provides a lightweight foundation for building *domain-driven*, *immutable*, and *type-safe* value objects in PHP implementing `compono-kit/types-interfaces`.
+Each type implements its own interfaces and can be used directly via traits or abstract classes. 
+It is designed for type safety, validation, and consistent methods for comparison, conversion, and manipulation.
 
-Basistypen, die skalare Typen, aber wie bei DateType auch andere Typen aus der PHP Bibliothek wrappen, um Typen in Anwendungen zu erstellen.
+100% code coverage without senseless LLM generated tests!
 
-Für jeden Typen (ausgenommen Uuid4) gibt es ein Interface und einen Trait, welcher bereits die meisten Interface-Methoden implementiert.
+## Requirements
 
-Die Typen können auch von den abstrakten Klassen abgeleitet werden. Diese implementieren alle Interface-Methoden und stellen zu dem eine automatische Validierung bereit.
+* PHP 8+
+* compono-kit/types-interfaces
 
-Die abstrakten Klassen sind immutable.
+---
 
-## Anwendungsbeispiele
+## 🚀 Installation
 
-### Strings
+```bash
+composer require compono-kit/types
+```
 
-````PHP
-class ClientId extends AbstractStringType
-{
-    public static function isValid( string $value ): bool
-    {
-        return $value !== '';
-    }
-}
-class ChannelId extends AbstractStringType
-{
-    public static function isValid( string $value ): bool
-    {
-        return $value !== '';
-    }
-}
-$clientId           = new ClientId( 'gmo' );
-$anotherClientId    = new ClientId( 'gmo' );
-$yetAnotherClientId = new ClientId( 'maerz' );
-$channelId          = new ChannelId( 'gmo' );
-$anotherChannelId   = new ChannelId( 'zalando' );
+---
 
-$clientId->equals( $anotherClientId ) //true
-$clientId->equals( $yetAnotherClientId ) //false
-$clientId->equals( $channelId ) //false
-$clientId->equalsValue( $channelId ) //true
+## Type Overview
 
-$newClientId = ClientId::fromStringType( $anotherChannelId );
-get_class( $newClientId ); //ClientId
-$newClientId->toString(); //zalando
-(string)$newClientId; //zalando
-````
+| Type        | Interface | Description |
+|-------------|-----------|--------------|
+| BooleanType | `RepresentsBoolean` | Represents a boolean value with conversion and comparison methods |
+| IntegerType | `RepresentsInteger` | Represents an integer with mathematical and comparison operations |
+| FloatType   | `RepresentsFloat` | Represents a float with mathematical and comparison operations |
+| StringType  | `RepresentsString` | Represents a string with extensive methods for manipulation, comparison, and regex |
+| DateType    | `RepresentsDate` | Represents a date/time with comparison, addition/subtraction, and formatting |
+| Uuid4       | `RepresentsString` | Represents a Uuid v4 value                                                |
+| Uuid7       | `RepresentsString` | Represents a Uuid v7 value                                                |
 
-### Integers
+All types implement the base interface `RepresentsType`, which includes methods such as `equals()` and `toNativeType()`.
 
-````PHP
-class Quantity extends AbstractStringType
-{
-    public static function isValid( int $value ): bool
-    {
-        return $value > 0;
-    }
-}
-$quantityOfFirstItem  = new Quantity( 2 );
-$quantityOfSecondItem = new Quantity( 5 );
+---
 
-$totalQuantity = $quantityOfFirstItem->add( $quantityOfSecondItem ); //7
-$difference    = $quantityOfFirstItem->subtract( $quantityOfSecondItem ); //throws ValidationException
-$difference    = $quantityOfSecondItem->subtract( $quantityOfFirstItem ); //3
+## Architecture
 
-$incrementedQuantity = $quantityOfFirstItem->increment( 10 ); //12
-````
+Each type can be used in three ways:
 
-### Eigene Uuid4-Typen
+1. **Trait** – Implements all interface methods.  
+   Advantage: You can use traits in your own classes without inheriting the abstract class.
 
-````PHP
-class FulfillmentId
-{
-    use RepresentingUuid4;
-}
+   ```php
+   class MyString {
+       use RepresentingString;
+   }
 
-$fulfillmentId        = FulfillmentId::generate(); //some UUID4
-$anotherFulfillmentId = FulfillmentId::fromString( '9b856c0e-610a-4e38-9ea6-b9ac63cfb521' ); 
-````
+   $str = new MyString("Hello World");
+   echo $str->toUpperCase(); // "HELLO WORLD"
+   ```
 
-### Uuid4
+2. **Abstract Class** – Uses the trait and adds an abstract `isValid()` method for validation.  
+   Advantage: Easily extendable for specific type rules.
 
-````PHP
-$uuid4 = (string)Uuid4::generate();
-````
+   ```php
+   abstract class AbstractEmail extends AbstractString {
+       public static function isValid(string $value): bool {
+           return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
+       }
+   }
+   ```
+
+3. **Default Implementation** – Standard implementation without special validation.  
+   Advantage: Quick usage for generic types.
+
+   ```php
+   $string = new StringType("Hello World");
+   echo $string->toUpperCase(); // "HELLO WORLD"
+   ```
+
+---
+
+## Usage Examples
+
+### String
+```php
+use ComponoKit\Types\StringType;
+
+$string = new StringType("Hello World");
+
+echo $string->toLowerCase();   // "hello world"
+echo $string->capitalizeFirst(); // "Hello World"
+echo $string->contains("World");  // true
+```
+
+### Integer
+```php
+use ComponoKit\Types\IntegerType;
+
+$int = new IntegerType(42);
+
+$int2 = $int->add(8); // 50
+var_dump($int2->isPositive()); // true
+```
+
+### Float
+```php
+use ComponoKit\Types\FloatType;
+
+$float = new FloatType(3.14);
+
+$float2 = $float->multiply(2); // 6.28
+var_dump($float2->isGreaterThan(5.0)); // true
+```
+
+### Boolean
+```php
+use ComponoKit\Types\BooleanType;
+
+$bool = new BooleanType(true);
+
+var_dump($bool->isTrue()); // true
+var_dump($bool->toInteger()); // 1
+```
+
+### Date
+```php
+use ComponoKit\Types\DateType;
+
+$date = new DateType(new \DateTimeImmutable("2025-11-22"));
+
+$tomorrow = $date->add(new \DateInterval('P1D'));
+var_dump($tomorrow->isGreaterThan($date)); // true
+
+$diff = $date->diff($tomorrow, false);
+echo $diff->format('%d days'); // "1 days"
+```
+
+### UUID4
+```php
+use ComponoKit\Types\Uuid4;
+
+$uuid = Uuid4::generate();
+echo $uuid->toString(); // e.g., "550e8400-e29b-41d4-a716-446655440000"
+```
+
+---
+
+## Exceptions
+
+All types use their own exceptions derived from `RepresentsTypeException`. 
+
+---
+
+## Summary
+
+- **Traits**: Full interface implementation, usable without abstract classes.
+- **Abstract Classes**: Traits + `isValid()` method for custom validation logic.
+- **Default Types**: Quick start without custom validation.
+- **UUID4**: Special string type with generated UUID.
+- **Benefits**: Type safety, consistent methods, easy extensibility and validation.
