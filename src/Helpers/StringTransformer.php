@@ -41,6 +41,36 @@ final class StringTransformer
 		);
 	}
 
+	public static function transformToUpperKebabCase( \Stringable|string $value ): string
+	{
+		return strtoupper( self::transformToKebabCase( $value ) );
+	}
+
+	public static function transformToLowerKebabCase( \Stringable|string $value ): string
+	{
+		return strtolower( self::transformToKebabCase( $value ) );
+	}
+
+	public static function transformToUpperSnakeCase( \Stringable|string $value ): string
+	{
+		return strtoupper( self::transformToSnakeCase( $value ) );
+	}
+
+	public static function transformToLowerSnakeCase( \Stringable|string $value ): string
+	{
+		return strtolower( self::transformToSnakeCase( $value ) );
+	}
+
+	public static function transformToUpperDotCase( \Stringable|string $value ): string
+	{
+		return strtoupper( self::transformToDotCase( $value ) );
+	}
+
+	public static function transformToLowerDotCase( \Stringable|string $value ): string
+	{
+		return strtolower( self::transformToDotCase( $value ) );
+	}
+
 	private static function toCamelCase( string $value, bool $toLowerCamelCase ): string
 	{
 		$result = preg_match_all( '#[^-_\s]*#', $value, $matches, PREG_PATTERN_ORDER );
