@@ -6,19 +6,25 @@ final class StringTransformer
 {
 	public static function transformToKebabCase( \Stringable|string $value ): string
 	{
-		return (string)preg_replace(
-			[ '/[^-\da-zA-Z]+/', '/-+/', ],
-			[ '-', '-', ],
-			self::isCamelCase( (string)$value ) ? self::transformFromCamelCase( (string)$value ) : $value
+		return trim(
+			(string)preg_replace(
+				[ '/[^-\da-zA-Z]+/', '/-+/', ],
+				[ '-', '-', ],
+				self::isCamelCase( (string)$value ) ? self::transformFromCamelCase( (string)$value ) : $value
+			),
+			'-'
 		);
 	}
 
 	public static function transformToSnakeCase( \Stringable|string $value ): string
 	{
-		return (string)preg_replace(
-			[ '/\W+/', '/_+/', ],
-			[ '_', '_', ],
-			self::isCamelCase( (string)$value ) ? self::transformFromCamelCase( (string)$value ) : $value
+		return trim(
+			(string)preg_replace(
+				[ '/\W+/', '/_+/', ],
+				[ '_', '_', ],
+				self::isCamelCase( (string)$value ) ? self::transformFromCamelCase( (string)$value ) : $value
+			),
+			'_'
 		);
 	}
 
@@ -34,10 +40,13 @@ final class StringTransformer
 
 	public static function transformToDotCase( \Stringable|string $value ): string
 	{
-		return (string)preg_replace(
-			[ '/[^.\da-zA-Z]+/', '/\.+/', ],
-			[ '.', '.', ],
-			self::isCamelCase( (string)$value ) ? self::transformFromCamelCase( (string)$value ) : $value
+		return trim(
+			(string)preg_replace(
+				[ '/[^.\da-zA-Z]+/', '/\.+/', ],
+				[ '.', '.', ],
+				self::isCamelCase( (string)$value ) ? self::transformFromCamelCase( (string)$value ) : $value
+			),
+			'.'
 		);
 	}
 
