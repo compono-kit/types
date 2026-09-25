@@ -3,3 +3,4 @@
 /vendor/
 /.idea
 /build/logs/
+/build/html-coverage/
