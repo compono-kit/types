@@ -8,7 +8,7 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingFloat
 {
-	public function __construct( private float $value )
+	public function __construct( private readonly float $value )
 	{
 	}
 
@@ -17,7 +17,7 @@ trait RepresentingFloat
 		/**
 		 * @var RepresentsFloat $type
 		 */
-		return get_class( $type ) === get_class( $this ) && $this->isEqual( $type );
+		return $this::class === $type::class && $this->isEqual( $type );
 	}
 
 	public function toNativeType(): float

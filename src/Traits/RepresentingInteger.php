@@ -7,7 +7,7 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingInteger
 {
-	public function __construct( private int $value )
+	public function __construct( private readonly int $value )
 	{
 	}
 
@@ -16,7 +16,7 @@ trait RepresentingInteger
 		/**
 		 * @var RepresentsInteger $type
 		 */
-		return get_class( $this ) === get_class( $type ) && $this->isEqual( $type );
+		return $this::class === $type::class && $this->isEqual( $type );
 	}
 
 	public function toNativeType(): int

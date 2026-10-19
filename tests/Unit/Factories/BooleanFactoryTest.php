@@ -10,6 +10,6 @@ class BooleanFactoryTest extends TestCase
 {
 	public function testBuildingType(): void
 	{
-		$this->assertEquals( new BooleanType( true ), (new BooleanFactory())->build( true ) );
+		$this->assertEquals( new BooleanType( true ), new BooleanFactory()->build( true ) );
 	}
 }

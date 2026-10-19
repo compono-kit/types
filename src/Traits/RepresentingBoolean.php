@@ -7,7 +7,7 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingBoolean
 {
-	public function __construct( private bool $value )
+	public function __construct( private readonly bool $value )
 	{
 	}
 
@@ -16,7 +16,7 @@ trait RepresentingBoolean
 		/**
 		 * @var RepresentsBoolean $type
 		 */
-		return get_class( $this ) === get_class( $type ) && $this->equalsValue( $type );
+		return $this::class === $type::class && $this->equalsValue( $type );
 	}
 
 	public function equalsValue( bool|RepresentsBoolean $value ): bool

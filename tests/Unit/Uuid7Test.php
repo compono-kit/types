@@ -6,6 +6,7 @@ use ComponoKit\Types\Exceptions\InvalidStringException;
 use ComponoKit\Types\StringType;
 use ComponoKit\Types\Tests\Unit\fakes\AnotherUuid7Type;
 use ComponoKit\Types\Uuid7;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class Uuid7Test extends TestCase
@@ -18,9 +19,7 @@ class Uuid7Test extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider ValidUuid7Provider
-	 **/
+	#[DataProvider( 'ValidUuid7Provider' )]
 	public function testIfValidValueDoesNotThrowException( string $validValue ): void
 	{
 		$this->expectNotToPerformAssertions();
@@ -39,9 +38,7 @@ class Uuid7Test extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider InvalidUuid7Provider
-	 **/
+	#[DataProvider( 'InvalidUuid7Provider' )]
 	public function testIfInvalidValueThrowsException( string $invalidValue ): void
 	{
 		$this->expectExceptionObject( new InvalidStringException( 'Invalid ' . Uuid7::class ) );
@@ -51,25 +48,25 @@ class Uuid7Test extends TestCase
 
 	public function testEquals(): void
 	{
-		self::assertTrue( (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equals( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
-		self::assertFalse( (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equals( new AnotherUuid7Type( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
-		self::assertFalse( (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equals( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfb0' ) ) );
-		self::assertFalse( (new AnotherUuid7Type( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equals( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfb0' ) ) );
+		self::assertTrue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equals( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
+		self::assertFalse( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equals( new AnotherUuid7Type( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
+		self::assertFalse( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equals( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfb0' ) ) );
+		self::assertFalse( new AnotherUuid7Type( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equals( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfb0' ) ) );
 	}
 
 	public function testEqualsValue(): void
 	{
-		self::assertTrue( (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equalsValue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
-		self::assertTrue( (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equalsValue( new AnotherUuid7Type( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
-		self::assertTrue( (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equalsValue( new StringType( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
-		self::assertTrue( (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equalsValue( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) );
-		self::assertFalse( (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equalsValue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfb0' ) ) );
-		self::assertFalse( (new AnotherUuid7Type( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->equalsValue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfb0' ) ) );
+		self::assertTrue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equalsValue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
+		self::assertTrue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equalsValue( new AnotherUuid7Type( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
+		self::assertTrue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equalsValue( new StringType( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) ) );
+		self::assertTrue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equalsValue( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) );
+		self::assertFalse( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equalsValue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfb0' ) ) );
+		self::assertFalse( new AnotherUuid7Type( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->equalsValue( new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfb0' ) ) );
 	}
 
 	public function testToString(): void
 	{
-		self::assertSame( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9', (new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ))->toString() );
+		self::assertSame( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9', new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' )->toString() );
 		self::assertSame( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9', (string)new Uuid7( '018e6ce5-8f5b-7b47-b8d5-02f92a47cfa9' ) );
 	}
 

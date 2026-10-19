@@ -11,6 +11,7 @@ use ComponoKit\Types\Interfaces\RepresentsInteger;
 use ComponoKit\Types\Tests\Unit\fakes\AnotherFloatType;
 use ComponoKit\Types\Tests\Unit\fakes\NoZeroFloatType;
 use ComponoKit\Types\Traits\RepresentingFloat;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class FloatTest extends TestCase
@@ -41,36 +42,36 @@ class FloatTest extends TestCase
 
 	public function testEquals(): void
 	{
-		self::assertTrue( (new FloatType( 51.5 ))->equals( new FloatType( 51.5 ) ) );
-		self::assertFalse( (new FloatType( 51.5 ))->equals( new FloatType( 51.0 ) ) );
-		self::assertFalse( (new FloatType( 51.5 ))->equals( new AnotherFloatType( 51.5 ) ) );
+		self::assertTrue( new FloatType( 51.5 )->equals( new FloatType( 51.5 ) ) );
+		self::assertFalse( new FloatType( 51.5 )->equals( new FloatType( 51.0 ) ) );
+		self::assertFalse( new FloatType( 51.5 )->equals( new AnotherFloatType( 51.5 ) ) );
 	}
 
 	public function testToNativeType(): void
 	{
-		self::assertSame( 7.4, (new FloatType( 7.4 ))->toNativeType() );
+		self::assertSame( 7.4, new FloatType( 7.4 )->toNativeType() );
 	}
 
 	public function testToFloat(): void
 	{
-		self::assertSame( 1.0, (new FloatType( 1 ))->toFloat() );
-		self::assertSame( -1.0, (new FloatType( -1 ))->toFloat() );
-		self::assertSame( 0.0, (new FloatType( 0 ))->toFloat() );
-		self::assertSame( 0.5, (new FloatType( 0.5 ))->toFloat() );
-		self::assertSame( -1.75, (new FloatType( -1.75 ))->toFloat() );
+		self::assertSame( 1.0, new FloatType( 1 )->toFloat() );
+		self::assertSame( -1.0, new FloatType( -1 )->toFloat() );
+		self::assertSame( 0.0, new FloatType( 0 )->toFloat() );
+		self::assertSame( 0.5, new FloatType( 0.5 )->toFloat() );
+		self::assertSame( -1.75, new FloatType( -1.75 )->toFloat() );
 	}
 
 	public function testToString(): void
 	{
-		self::assertSame( '1', (new FloatType( 1 ))->toString() );
-		self::assertSame( '-1.0', (new FloatType( -1 ))->toString( 1 ) );
-		self::assertSame( '0', (new FloatType( 0 ))->toString() );
-		self::assertSame( '0.50', (new FloatType( 0.5 ))->toString( 2 ) );
-		self::assertSame( '-1.75', (new FloatType( -1.75 ))->toString( 2 ) );
-		self::assertSame( '-2', (new FloatType( -1.75 ))->toString() );
-		self::assertSame( '-1.255', (new FloatType( -1.255 ))->toString( 3 ) );
-		self::assertSame( '-1.26', (new FloatType( -1.255 ))->toString( 2 ) );
-		self::assertSame( '-1.2550', (new FloatType( -1.255 ))->toString( 4 ) );
+		self::assertSame( '1', new FloatType( 1 )->toString() );
+		self::assertSame( '-1.0', new FloatType( -1 )->toString( 1 ) );
+		self::assertSame( '0', new FloatType( 0 )->toString() );
+		self::assertSame( '0.50', new FloatType( 0.5 )->toString( 2 ) );
+		self::assertSame( '-1.75', new FloatType( -1.75 )->toString( 2 ) );
+		self::assertSame( '-2', new FloatType( -1.75 )->toString() );
+		self::assertSame( '-1.255', new FloatType( -1.255 )->toString( 3 ) );
+		self::assertSame( '-1.26', new FloatType( -1.255 )->toString( 2 ) );
+		self::assertSame( '-1.2550', new FloatType( -1.255 )->toString( 4 ) );
 	}
 
 	public function testMagicToString(): void
@@ -105,9 +106,7 @@ class FloatTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider ComparisonDataProvider
-	 **/
+	#[DataProvider( 'ComparisonDataProvider' )]
 	public function testComparingFloatTypes( float $originalFloatValue, float $anotherFloatValue, bool $isLess, bool $isEqual, bool $isGreater ): void
 	{
 		$originalFloatType = new FloatType( $originalFloatValue );
@@ -128,37 +127,37 @@ class FloatTest extends TestCase
 
 	public function testIsZero(): void
 	{
-		self::assertTrue( (new FloatType( 0 ))->isZero() );
-		self::assertFalse( (new FloatType( -0.1 ))->isZero() );
-		self::assertFalse( (new FloatType( 0.1 ))->isZero() );
+		self::assertTrue( new FloatType( 0 )->isZero() );
+		self::assertFalse( new FloatType( -0.1 )->isZero() );
+		self::assertFalse( new FloatType( 0.1 )->isZero() );
 	}
 
 	public function testIsPositive(): void
 	{
-		self::assertFalse( (new FloatType( 0 ))->isPositive() );
-		self::assertFalse( (new FloatType( -0.1 ))->isPositive() );
-		self::assertTrue( (new FloatType( 0.1 ))->isPositive() );
+		self::assertFalse( new FloatType( 0 )->isPositive() );
+		self::assertFalse( new FloatType( -0.1 )->isPositive() );
+		self::assertTrue( new FloatType( 0.1 )->isPositive() );
 	}
 
 	public function testIsNegative(): void
 	{
-		self::assertFalse( (new FloatType( 0 ))->isNegative() );
-		self::assertTrue( (new FloatType( -0.1 ))->isNegative() );
-		self::assertFalse( (new FloatType( 0.1 ))->isNegative() );
+		self::assertFalse( new FloatType( 0 )->isNegative() );
+		self::assertTrue( new FloatType( -0.1 )->isNegative() );
+		self::assertFalse( new FloatType( 0.1 )->isNegative() );
 	}
 
 	public function testIsPositiveOrZero(): void
 	{
-		self::assertTrue( (new FloatType( 0 ))->isPositiveOrZero() );
-		self::assertFalse( (new FloatType( -0.1 ))->isPositiveOrZero() );
-		self::assertTrue( (new FloatType( 0.1 ))->isPositiveOrZero() );
+		self::assertTrue( new FloatType( 0 )->isPositiveOrZero() );
+		self::assertFalse( new FloatType( -0.1 )->isPositiveOrZero() );
+		self::assertTrue( new FloatType( 0.1 )->isPositiveOrZero() );
 	}
 
 	public function testIsNegativeOrZero(): void
 	{
-		self::assertTrue( (new FloatType( 0 ))->isNegativeOrZero() );
-		self::assertTrue( (new FloatType( -0.1 ))->isNegativeOrZero() );
-		self::assertFalse( (new FloatType( 0.1 ))->isNegativeOrZero() );
+		self::assertTrue( new FloatType( 0 )->isNegativeOrZero() );
+		self::assertTrue( new FloatType( -0.1 )->isNegativeOrZero() );
+		self::assertFalse( new FloatType( 0.1 )->isNegativeOrZero() );
 	}
 
 	public static function AddTestDataProvider(): array
@@ -172,9 +171,7 @@ class FloatTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider AddTestDataProvider
-	 **/
+	#[DataProvider( 'AddTestDataProvider' )]
 	public function testAdd( RepresentsFloat $originalFloatType, RepresentsFloat|RepresentsInteger $anotherType, RepresentsFloat $expectedFloatType ): void
 	{
 		self::assertEquals( $expectedFloatType, $originalFloatType->add( $anotherType ) );
@@ -202,9 +199,7 @@ class FloatTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider SubtractTestDataProvider
-	 **/
+	#[DataProvider( 'SubtractTestDataProvider' )]
 	public function testSubtract( RepresentsFloat $originalFloatType, RepresentsFloat|RepresentsInteger $anotherType, RepresentsFloat $expectedFloatType ): void
 	{
 		self::assertEquals( $expectedFloatType, $originalFloatType->subtract( $anotherType ) );
@@ -232,9 +227,7 @@ class FloatTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider MultiplyTestDataProvider
-	 **/
+	#[DataProvider( 'MultiplyTestDataProvider' )]
 	public function testMultiply( RepresentsFloat $originalFloatType, RepresentsFloat|RepresentsInteger $anotherType, RepresentsFloat $expectedFloatType ): void
 	{
 		self::assertEquals( $expectedFloatType, $originalFloatType->multiply( $anotherType ) );
@@ -260,9 +253,7 @@ class FloatTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider DivideTestDataProvider
-	 **/
+	#[DataProvider( 'DivideTestDataProvider' )]
 	public function testDivide( RepresentsFloat $originalFloatType, RepresentsFloat|RepresentsInteger $anotherType, RepresentsFloat $expectedFloatType ): void
 	{
 		self::assertEquals( $expectedFloatType, $originalFloatType->divide( $anotherType ) );

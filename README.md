@@ -1,6 +1,6 @@
 # ComponoKit / Types
 
-**Strongly typed value objects for PHP 8+**
+**Strongly typed value objects for PHP 8.5+**
 
 This package provides a lightweight foundation for building *domain-driven*, *immutable*, and *type-safe* value objects in PHP implementing `compono-kit/types-interfaces`.
 Each type implements its own interfaces and can be used directly via traits or abstract classes. 
@@ -10,7 +10,7 @@ It is designed for type safety, validation, and consistent methods for compariso
 
 ## Requirements
 
-* PHP 8+
+* PHP 8.5+
 * compono-kit/types-interfaces
 
 ---

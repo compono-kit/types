@@ -4,6 +4,8 @@ namespace ComponoKit\Types;
 
 class Uuid4 extends AbstractString
 {
+	public const string NIL = '00000000-0000-0000-0000-000000000000';
+
 	public static function generate(): static
 	{
 		$data = random_bytes( 16 );
@@ -16,7 +18,7 @@ class Uuid4 extends AbstractString
 
 	public static function isValid( string $value ): bool
 	{
-		if ( '00000000-0000-0000-0000-000000000000' === $value )
+		if ( self::NIL === $value )
 		{
 			return true;
 		}

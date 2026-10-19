@@ -10,7 +10,7 @@ abstract class AbstractString implements RepresentsString
 {
 	use RepresentingString;
 
-	public function __construct( private string $value )
+	public function __construct( private readonly string $value )
 	{
 		$this->validate( $value );
 	}
@@ -26,7 +26,7 @@ abstract class AbstractString implements RepresentsString
 	{
 		if ( !static::isValid( $value ) )
 		{
-			throw (new InvalidStringException( 'Invalid ' . static::class ))->setContext( [ 'value' => $value, ] );
+			throw new InvalidStringException( 'Invalid ' . static::class )->setContext( [ 'value' => $value, ] );
 		}
 	}
 }

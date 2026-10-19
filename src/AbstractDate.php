@@ -10,26 +10,31 @@ abstract class AbstractDate implements RepresentsDate
 {
 	use RepresentingDate;
 
-	public function __construct( ?string $dateTime = "now", ?\DateTimeZone $timeZone = null, private string $defaultFormat = 'Y-m-d H:i:s' )
+	public function __construct( string $dateTime = 'now', ?\DateTimeZone $timeZone = null, string $defaultFormat = self::DEFAULT_FORMAT )
 	{
 		$this->validate( $dateTime, $timeZone );
 
-		$this->dateTime = new \DateTimeImmutable( $dateTime, $timeZone );
+		$this->dateTime      = new \DateTimeImmutable( $dateTime, $timeZone );
+		$this->defaultFormat = $defaultFormat;
 	}
 
 	abstract public static function isValid( \DateTimeInterface $value ): bool;
 
 	public static function fromDate( RepresentsDate|\DateTimeInterface $type ): static
 	{
-		return new static( $type->format( 'c' ), $type->getTimezone() );
+		return new static( $type->format( self::LOSSLESS_FORMAT ), $type->getTimezone() );
 	}
 
-	/**
-	 * @throws \DateMalformedStringException|\Exception
-	 */
 	public static function fromTimestamp( int $unixTimestamp, ?\DateTimeZone $timeZone = null ): static
 	{
-		return new static( (new \DateTimeImmutable( 'now', $timeZone ))->modify( '@' . $unixTimestamp )->format( 'c' ) );
+		$dateTime = \DateTimeImmutable::createFromTimestamp( $unixTimestamp );
+
+		if ( null !== $timeZone )
+		{
+			$dateTime = $dateTime->setTimezone( $timeZone );
+		}
+
+		return new static( $dateTime->format( self::LOSSLESS_FORMAT ), $dateTime->getTimezone() );
 	}
 
 	protected function validate( string $dateTime, ?\DateTimeZone $timeZone ): void
@@ -45,12 +50,12 @@ abstract class AbstractDate implements RepresentsDate
 		}
 		catch ( \Throwable )
 		{
-			throw (new InvalidDateException( 'Invalid ' . static::class ))->setContext( $context );
+			throw new InvalidDateException( 'Invalid ' . static::class )->setContext( $context );
 		}
 
 		if ( !static::isValid( $dateTimeImmutable ) )
 		{
-			throw (new InvalidDateException( 'Invalid ' . static::class ))->setContext( $context );
+			throw new InvalidDateException( 'Invalid ' . static::class )->setContext( $context );
 		}
 	}
 }

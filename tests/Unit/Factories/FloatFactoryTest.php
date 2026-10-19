@@ -10,6 +10,6 @@ class FloatFactoryTest extends TestCase
 {
 	public function testBuildingType(): void
 	{
-		$this->assertEquals( new FloatType( 3.5 ), (new FloatFactory())->build( 3.5 ) );
+		$this->assertEquals( new FloatType( 3.5 ), new FloatFactory()->build( 3.5 ) );
 	}
 }

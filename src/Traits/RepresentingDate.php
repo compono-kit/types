@@ -2,24 +2,29 @@
 
 namespace ComponoKit\Types\Traits;
 
+use ComponoKit\Types\Exceptions\InvalidDateException;
 use ComponoKit\Types\Interfaces\RepresentsDate;
 use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingDate
 {
-	private \DateTimeImmutable $dateTime;
+	public const string  DEFAULT_FORMAT  = 'Y-m-d H:i:s';
 
-	public function __construct( ?string $dateTime = "now", ?\DateTimeZone $timeZone = null )
+	private const string LOSSLESS_FORMAT = 'Y-m-d\TH:i:s.uP';
+
+	private readonly \DateTimeImmutable $dateTime;
+
+	private readonly string             $defaultFormat;
+
+	public function __construct( string $dateTime = 'now', ?\DateTimeZone $timeZone = null, string $defaultFormat = 'Y-m-d H:i:s' )
 	{
-		$this->dateTime = new \DateTimeImmutable( $dateTime, $timeZone );
+		$this->dateTime      = new \DateTimeImmutable( $dateTime, $timeZone );
+		$this->defaultFormat = $defaultFormat;
 	}
 
 	public function equals( RepresentsType $type ): bool
 	{
-		/**
-		 * @var RepresentsDate|\DateTimeInterface|string $type
-		 */
-		return get_class( $type ) === get_class( $this ) && $this->equalsValue( $type );
+		return $this::class === $type::class && $this->equalsValue( $type );
 	}
 
 	public function equalsValue( RepresentsDate|\DateTimeInterface|string $value ): bool
@@ -51,19 +56,19 @@ trait RepresentingDate
 	{
 		$dateTime = $this->dateTime->add( $dateInterval );
 
-		return new static( $dateTime->format( 'c' ), $dateTime->getTimezone() );
+		return new static( $dateTime->format( self::LOSSLESS_FORMAT ), $dateTime->getTimezone(), $this->defaultFormat );
 	}
 
 	public function sub( \DateInterval $dateInterval ): static
 	{
 		$dateTime = $this->dateTime->sub( $dateInterval );
 
-		return new static( $dateTime->format( 'c' ), $dateTime->getTimezone() );
+		return new static( $dateTime->format( self::LOSSLESS_FORMAT ), $dateTime->getTimezone(), $this->defaultFormat );
 	}
 
-	public function diff( RepresentsDate $datetime2, bool $absolute = false ): \DateInterval
+	public function diff( RepresentsDate $anotherDate, bool $absolute = false ): \DateInterval
 	{
-		return $this->dateTime->diff( $datetime2->toDateTime(), $absolute );
+		return $this->dateTime->diff( $anotherDate->toDateTime(), $absolute );
 	}
 
 	public function isGreaterThan( RepresentsDate|\DateTimeInterface|string $value ): bool
@@ -88,14 +93,14 @@ trait RepresentingDate
 
 	public function hasExpired( ?\DateInterval $expirationInterval = null, null|RepresentsDate|\DateTimeInterface $referenceTime = null ): bool
 	{
-		$referenceTime = $referenceTime ?? new \DateTimeImmutable();
+		$referenceDateTime = null === $referenceTime ? new \DateTimeImmutable() : $this->convertToDateTime( $referenceTime );
 
 		if ( null !== $expirationInterval )
 		{
-			return $this->dateTime->add( $expirationInterval ) < $referenceTime;
+			return $this->dateTime->add( $expirationInterval ) < $referenceDateTime;
 		}
 
-		return $this->dateTime < $referenceTime;
+		return $this->dateTime < $referenceDateTime;
 	}
 
 	public function format( string $format ): string
@@ -123,18 +128,25 @@ trait RepresentingDate
 		return $this->dateTime->format( $this->defaultFormat );
 	}
 
-	private function convertToDateTime( RepresentsDate|\DateTimeInterface|string $value )
+	private function convertToDateTime( RepresentsDate|\DateTimeInterface|string $value ): \DateTimeInterface
 	{
-		if ( is_string( $value ) )
-		{
-			return new \DateTimeImmutable( $value );
-		}
-
 		if ( $value instanceof RepresentsDate )
 		{
 			return $value->toDateTime();
 		}
 
-		return $value;
+		if ( $value instanceof \DateTimeInterface )
+		{
+			return $value;
+		}
+
+		try
+		{
+			return new \DateTimeImmutable( $value );
+		}
+		catch ( \DateMalformedStringException $exception )
+		{
+			throw new InvalidDateException( 'Invalid date: ' . $value, 0, $exception )->setContext( [ 'date-time' => $value ] );
+		}
 	}
 }

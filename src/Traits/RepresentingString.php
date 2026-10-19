@@ -8,13 +8,13 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingString
 {
-	public function __construct( private string $value )
+	public function __construct( private readonly string $value )
 	{
 	}
 
 	public function equals( RepresentsType $type ): bool
 	{
-		return get_class( $this ) === get_class( $type ) && $this->equalsValue( $type );
+		return $this::class === $type::class && $this->equalsValue( $type );
 	}
 
 	public function equalsValue( string|\Stringable $value ): bool
@@ -54,7 +54,7 @@ trait RepresentingString
 
 	public function trim( string $characters = " \n\r\t\v\x00" ): static
 	{
-		return new static( trim( $this->toString(), $characters ) );
+		return new static( mb_trim( $this->toString(), $characters ) );
 	}
 
 	public function replace( array|string|\Stringable $search, array|string|\Stringable $replace ): static
@@ -64,27 +64,27 @@ trait RepresentingString
 
 	public function substring( int $offset, ?int $length = null ): static
 	{
-		return new static( substr( $this->toString(), $offset, $length ) );
+		return new static( mb_substr( $this->toString(), $offset, $length ) );
 	}
 
 	public function toLowerCase(): static
 	{
-		return new static( strtolower( $this->toString() ) );
+		return new static( mb_strtolower( $this->toString() ) );
 	}
 
 	public function toUpperCase(): static
 	{
-		return new static( strtoupper( $this->toString() ) );
+		return new static( mb_strtoupper( $this->toString() ) );
 	}
 
 	public function capitalizeFirst(): static
 	{
-		return new static( ucfirst( $this->toString() ) );
+		return new static( mb_ucfirst( $this->toString() ) );
 	}
 
 	public function deCapitalizeFirst(): static
 	{
-		return new static( lcfirst( $this->toString() ) );
+		return new static( mb_lcfirst( $this->toString() ) );
 	}
 
 	/**
@@ -110,13 +110,13 @@ trait RepresentingString
 		return explode( $delimiter, $this->toString() );
 	}
 
-	public function matchRegularExpression( string|RepresentsString|\Stringable $pattern, &$matches = null, int $flags = 0, int $offset = 0 ): bool
+	public function matchRegularExpression( string|RepresentsString|\Stringable $pattern, ?array &$matches = null, int $flags = 0, int $offset = 0 ): bool
 	{
 		$result = @preg_match( (string)$pattern, $this->toString(), $matches, $flags, $offset );
 
 		if ( false === $result )
 		{
-			throw new RegExException( 'Regular expression error: ' . error_get_last()['message'] );
+			throw new RegExException( 'Regular expression error: ' . (error_get_last()['message'] ?? preg_last_error_msg()) );
 		}
 
 		return $result > 0;

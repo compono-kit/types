@@ -11,6 +11,7 @@ use ComponoKit\Types\Tests\Unit\fakes\AnotherStringType;
 use ComponoKit\Types\Tests\Unit\fakes\NoQuestionMarkStringType;
 use ComponoKit\Types\Tests\Unit\fakes\RandomStringableType;
 use ComponoKit\Types\Traits\RepresentingString;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class StringTest extends TestCase
@@ -41,9 +42,9 @@ class StringTest extends TestCase
 
 	public function testEquals(): void
 	{
-		self::assertTrue( (new StringType( 'Test' ))->equals( new StringType( 'Test' ) ) );
-		self::assertFalse( (new StringType( 'Test' ))->equals( new StringType( 'test' ) ) );
-		self::assertFalse( (new StringType( 'Test' ))->equals( new AnotherStringType( 'Test' ) ) );
+		self::assertTrue( new StringType( 'Test' )->equals( new StringType( 'Test' ) ) );
+		self::assertFalse( new StringType( 'Test' )->equals( new StringType( 'test' ) ) );
+		self::assertFalse( new StringType( 'Test' )->equals( new AnotherStringType( 'Test' ) ) );
 	}
 
 	public static function EqualsValueTestDataProvider(): \Iterator
@@ -56,9 +57,7 @@ class StringTest extends TestCase
 		yield [ new StringType( 'Test 1' ), new RandomStringableType( 'Test 2' ), false, ];
 	}
 
-	/**
-	 * @dataProvider EqualsValueTestDataProvider
-	 **/
+	#[DataProvider( 'EqualsValueTestDataProvider' )]
 	public function testEqualsValue( RepresentsString $stringType, RepresentsString|\Stringable $anotherStringType, bool $expectedResult ): void
 	{
 		self::assertSame( $expectedResult, $stringType->equalsValue( $anotherStringType ) );
@@ -76,25 +75,19 @@ class StringTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider ToStringTestDataProvider
-	 **/
+	#[DataProvider( 'ToStringTestDataProvider' )]
 	public function testToNativeType( RepresentsString $stringType, string $expectedString ): void
 	{
 		self::assertSame( $expectedString, $stringType->toNativeType() );
 	}
 
-	/**
-	 * @dataProvider ToStringTestDataProvider
-	 **/
+	#[DataProvider( 'ToStringTestDataProvider' )]
 	public function testToString( RepresentsString $stringType, string $expectedString ): void
 	{
 		self::assertSame( $expectedString, $stringType->toString() );
 	}
 
-	/**
-	 * @dataProvider ToStringTestDataProvider
-	 **/
+	#[DataProvider( 'ToStringTestDataProvider' )]
 	public function testMagicToString( RepresentsString $stringType, string $expectedString ): void
 	{
 		self::assertSame( $expectedString, (string)$stringType );
@@ -102,9 +95,9 @@ class StringTest extends TestCase
 
 	public function testIsEmpty(): void
 	{
-		self::assertTrue( (new StringType( '' ))->isEmpty() );
-		self::assertFalse( (new StringType( '0' ))->isEmpty() );
-		self::assertFalse( (new StringType( ' ' ))->isEmpty() );
+		self::assertTrue( new StringType( '' )->isEmpty() );
+		self::assertFalse( new StringType( '0' )->isEmpty() );
+		self::assertFalse( new StringType( ' ' )->isEmpty() );
 	}
 
 	public function testInitializeClassUsingTrait(): void
@@ -118,47 +111,48 @@ class StringTest extends TestCase
 
 	public function testGetByteLength(): void
 	{
-		self::assertEquals( 0, (new StringType( '' ))->getByteLength() );
-		self::assertEquals( 18, (new StringType( 'Count this please!' ))->getByteLength() );
-		self::assertEquals( 14, (new StringType( 'äöüÄÖÜß' ))->getByteLength() );
-		self::assertEquals( 13, (new StringType( '你好世界"' ))->getByteLength() );
-		self::assertEquals( 4, (new StringType( '😀' ))->getByteLength() );
-		self::assertEquals( 8, (new StringType( '👍🏽' ))->getByteLength() );
-		self::assertEquals( 5, (new StringType( 'é́' ))->getByteLength() );
-		self::assertEquals( 12, (new StringType( 'A😀你好B' ))->getByteLength() );
+		self::assertEquals( 0, new StringType( '' )->getByteLength() );
+		self::assertEquals( 18, new StringType( 'Count this please!' )->getByteLength() );
+		self::assertEquals( 14, new StringType( 'äöüÄÖÜß' )->getByteLength() );
+		self::assertEquals( 13, new StringType( '你好世界"' )->getByteLength() );
+		self::assertEquals( 4, new StringType( '😀' )->getByteLength() );
+		self::assertEquals( 8, new StringType( '👍🏽' )->getByteLength() );
+		self::assertEquals( 5, new StringType( 'é́' )->getByteLength() );
+		self::assertEquals( 12, new StringType( 'A😀你好B' )->getByteLength() );
 	}
 
 	public function testCountChars(): void
 	{
-		self::assertEquals( 0, (new StringType( '' ))->countChars() );
-		self::assertEquals( 18, (new StringType( 'Count this please!' ))->countChars() );
-		self::assertEquals( 7, (new StringType( 'äöüÄÖÜß' ))->countChars() );
-		self::assertEquals( 4, (new StringType( '你好世界' ))->countChars() );
-		self::assertEquals( 1, (new StringType( '😀' ))->countChars() );
-		self::assertEquals( 1, (new StringType( '👍🏽' ))->countChars() );
-		self::assertEquals( 1, (new StringType( 'é́' ))->countChars() );
-		self::assertEquals( 5, (new StringType( 'A😀你好B' ))->countChars() );
+		self::assertEquals( 0, new StringType( '' )->countChars() );
+		self::assertEquals( 18, new StringType( 'Count this please!' )->countChars() );
+		self::assertEquals( 7, new StringType( 'äöüÄÖÜß' )->countChars() );
+		self::assertEquals( 4, new StringType( '你好世界' )->countChars() );
+		self::assertEquals( 1, new StringType( '😀' )->countChars() );
+		self::assertEquals( 1, new StringType( '👍🏽' )->countChars() );
+		self::assertEquals( 1, new StringType( 'é́' )->countChars() );
+		self::assertEquals( 5, new StringType( 'A😀你好B' )->countChars() );
 	}
 
 	public function testTrim(): void
 	{
-		self::assertEquals( 'Trim this!', (new StringType( ' Trim this! ' ))->trim() );
-		self::assertEquals( 'Trim this!', (new StringType( '  Trim this!  ' ))->trim() );
-		self::assertEquals( 'Trim this!', (new StringType( "   Trim this!  \n" ))->trim() );
+		self::assertEquals( 'Trim this!', new StringType( ' Trim this! ' )->trim() );
+		self::assertEquals( 'Trim this!', new StringType( '  Trim this!  ' )->trim() );
+		self::assertEquals( 'Trim this!', new StringType( "   Trim this!  \n" )->trim() );
+		self::assertEquals( 'Grüße', new StringType( '–Grüße–' )->trim( '–' ) );
 	}
 
 	public function testReplace(): void
 	{
-		self::assertEquals( new StringType( 'I don\'t like red' ), (new StringType( 'I don\'t like yellow' ))->replace( 'yellow', 'red' ) );
+		self::assertEquals( new StringType( 'I don\'t like red' ), new StringType( 'I don\'t like yellow' )->replace( 'yellow', 'red' ) );
 		self::assertEquals(
 			new StringType( 'I don\'t like red' ),
-			(new StringType( 'I don\'t like yellow' ))->replace( new StringType( 'yellow' ), new StringType( 'red' ) )
+			new StringType( 'I don\'t like yellow' )->replace( new StringType( 'yellow' ), new StringType( 'red' ) )
 		);
 		self::assertEquals(
 			new StringType( 'I don\'t like red' ),
-			(new StringType( 'I don\'t like yellow' ))->replace( new RandomStringableType( 'yellow' ), new RandomStringableType( 'red' ) )
+			new StringType( 'I don\'t like yellow' )->replace( new RandomStringableType( 'yellow' ), new RandomStringableType( 'red' ) )
 		);
-		self::assertEquals( new StringType( 'I like red' ), (new StringType( 'I don\'t like yellow' ))->replace( [ 'yellow', 'don\'t ' ], [ 'red', '' ] ) );
+		self::assertEquals( new StringType( 'I like red' ), new StringType( 'I don\'t like yellow' )->replace( [ 'yellow', 'don\'t ' ], [ 'red', '' ] ) );
 
 		$anyStringType = new StringType( 'I don\'t like blue' );
 		self::assertNotSame( $anyStringType, $anyStringType->replace( 'yellow', 'red' ) );
@@ -167,42 +161,46 @@ class StringTest extends TestCase
 	public static function SubstringTestDataProvider(): array
 	{
 		return [
-			[ 'abcdef', -1, null, 'f' ],
-			[ 'abcdef', -2, null, 'ef' ],
-			[ 'abcdef', -3, 1, 'd' ],
-			[ 'abcdef', 0, -1, 'abcde' ],
-			[ 'abcdef', 2, -1, 'cde' ],
-			[ 'abcdef', 4, -4, '' ],
-			[ 'abcdef', -3, -1, 'de' ],
+			'negative offset without length'         => [ 'abcdef', -1, null, 'f' ],
+			'negative offset of two without length'  => [ 'abcdef', -2, null, 'ef' ],
+			'negative offset with length'            => [ 'abcdef', -3, 1, 'd' ],
+			'zero offset with negative length'       => [ 'abcdef', 0, -1, 'abcde' ],
+			'positive offset with negative length'   => [ 'abcdef', 2, -1, 'cde' ],
+			'overlapping offset and negative length' => [ 'abcdef', 4, -4, '' ],
+			'negative offset with negative length'   => [ 'abcdef', -3, -1, 'de' ],
+			'multibyte characters are not split'     => [ 'äöüß', 1, 2, 'öü' ],
+			'multibyte with negative offset'         => [ 'Grüße', -3, null, 'üße' ],
 		];
 	}
 
-	/**
-	 * @dataProvider SubstringTestDataProvider
-	 **/
+	#[DataProvider( 'SubstringTestDataProvider' )]
 	public function testSubstring( string $anyString, int $offset, ?int $length, string $expectedString ): void
 	{
-		self::assertEquals( new StringType( $expectedString ), (new StringType( $anyString ))->substring( $offset, $length ) );
+		self::assertEquals( new StringType( $expectedString ), new StringType( $anyString )->substring( $offset, $length ) );
 	}
 
 	public function testToLowerCase(): void
 	{
-		self::assertEquals( new StringType( 'i like only lower case' ), (new StringType( 'I like only LOWER CASE' ))->toLowerCase() );
+		self::assertEquals( new StringType( 'i like only lower case' ), new StringType( 'I like only LOWER CASE' )->toLowerCase() );
+		self::assertEquals( new StringType( 'äöü straße' ), new StringType( 'ÄÖÜ Straße' )->toLowerCase() );
 	}
 
 	public function testToUpperCase(): void
 	{
-		self::assertEquals( new StringType( 'I LIKE ONLY UPPER CASE' ), (new StringType( 'I like only upper case' ))->toUpperCase() );
+		self::assertEquals( new StringType( 'I LIKE ONLY UPPER CASE' ), new StringType( 'I like only upper case' )->toUpperCase() );
+		self::assertEquals( new StringType( 'ÄÖÜ' ), new StringType( 'äöü' )->toUpperCase() );
 	}
 
 	public function testCapitalizeFirst(): void
 	{
-		self::assertEquals( new StringType( 'My id' ), (new StringType( 'my id' ))->capitalizeFirst() );
+		self::assertEquals( new StringType( 'My id' ), new StringType( 'my id' )->capitalizeFirst() );
+		self::assertEquals( new StringType( 'Über' ), new StringType( 'über' )->capitalizeFirst() );
 	}
 
 	public function testDeCapitalizeFirst(): void
 	{
-		self::assertEquals( new StringType( 'myId Ok!' ), (new StringType( 'MyId Ok!' ))->deCapitalizeFirst() );
+		self::assertEquals( new StringType( 'myId Ok!' ), new StringType( 'MyId Ok!' )->deCapitalizeFirst() );
+		self::assertEquals( new StringType( 'über' ), new StringType( 'Über' )->deCapitalizeFirst() );
 	}
 
 	public function testSplit(): void
@@ -214,7 +212,7 @@ class StringTest extends TestCase
 				new StringType( 'cow' ),
 			],
 			iterator_to_array(
-				(new StringType( 'cat,dog,cow' ))->split( ',' ),
+				new StringType( 'cat,dog,cow' )->split( ',' ),
 				false
 			)
 		);
@@ -222,7 +220,7 @@ class StringTest extends TestCase
 
 	public function testSplitNative(): void
 	{
-		self::assertEquals( [ 'cat', 'dog', 'cow' ], (new StringType( 'cat,dog,cow' ))->splitNative( ',' ) );
+		self::assertEquals( [ 'cat', 'dog', 'cow' ], new StringType( 'cat,dog,cow' )->splitNative( ',' ) );
 	}
 
 	public static function RegularExpressionDataProvider(): array
@@ -234,15 +232,13 @@ class StringTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider RegularExpressionDataProvider
-	 **/
+	#[DataProvider( 'RegularExpressionDataProvider' )]
 	public function testMatchRegularExpression( string $anyString, string $pattern, bool $expectedResult ): void
 	{
 		@preg_match( $pattern, $anyString, $expectedMatches );
 
-		self::assertEquals( $expectedResult, (new StringType( $anyString ))->matchRegularExpression( $pattern, $matches ) );
-		self::assertEquals( $expectedResult, (new StringType( $anyString ))->matchRegularExpression( new StringType( $pattern ), $matches ) );
+		self::assertEquals( $expectedResult, new StringType( $anyString )->matchRegularExpression( $pattern, $matches ) );
+		self::assertEquals( $expectedResult, new StringType( $anyString )->matchRegularExpression( new StringType( $pattern ), $matches ) );
 		self::assertEquals( $expectedMatches, $matches );
 	}
 
@@ -250,14 +246,14 @@ class StringTest extends TestCase
 	{
 		$this->expectException( RegExException::class );
 
-		(new StringType( 'Abc' ))->matchRegularExpression( '}{' );
+		new StringType( 'Abc' )->matchRegularExpression( '}{' );
 	}
 
 	public function testContains(): void
 	{
-		self::assertTrue( (new StringType( 'This is a text containing dogs and not only cats.' ))->contains( 'dogs' ) );
-		self::assertTrue( (new StringType( 'This is a text containing dogs and not only cats.' ))->contains( new StringType( 'dogs' ) ) );
-		self::assertFalse( (new StringType( 'This is a text containing dogs and not only cats.' ))->contains( 'cow' ) );
+		self::assertTrue( new StringType( 'This is a text containing dogs and not only cats.' )->contains( 'dogs' ) );
+		self::assertTrue( new StringType( 'This is a text containing dogs and not only cats.' )->contains( new StringType( 'dogs' ) ) );
+		self::assertFalse( new StringType( 'This is a text containing dogs and not only cats.' )->contains( 'cow' ) );
 	}
 
 	public function testContainsOneOf(): void
