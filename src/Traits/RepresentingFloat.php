@@ -8,7 +8,7 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingFloat
 {
-	public function __construct( private readonly float $value )
+	public function __construct( private float $value )
 	{
 	}
 

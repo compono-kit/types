@@ -7,7 +7,7 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingInteger
 {
-	public function __construct( private readonly int $value )
+	public function __construct( private int $value )
 	{
 	}
 

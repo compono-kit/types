@@ -10,7 +10,7 @@ abstract class AbstractInteger implements RepresentsInteger
 {
 	use RepresentingInteger;
 
-	public function __construct( private readonly int $value )
+	public function __construct( private int $value )
 	{
 		$this->validate( $value );
 	}
@@ -26,7 +26,7 @@ abstract class AbstractInteger implements RepresentsInteger
 	{
 		if ( !static::isValid( $value ) )
 		{
-			throw new InvalidIntegerException( 'Invalid ' . static::class )->setContext( [ 'value' => $value, ] );
+			throw (new InvalidIntegerException( 'Invalid ' . static::class ))->setContext( [ 'value' => $value, ] );
 		}
 	}
 }

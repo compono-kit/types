@@ -10,6 +10,6 @@ class StringFactoryTest extends TestCase
 {
 	public function testBuildingType(): void
 	{
-		$this->assertEquals( new StringType( 'test' ), new StringFactory()->build( 'test' ) );
+		$this->assertEquals( new StringType( 'test' ), (new StringFactory())->build( 'test' ) );
 	}
 }

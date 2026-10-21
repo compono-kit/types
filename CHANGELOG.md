@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [dev-php/8.0]
+
+### Changed
+* Maintenance branch of 2.0.0 for PHP 8.0, receives fixes only
+* Requires PHP 8.0, `compono-kit/types-interfaces` dev-php/8.0 and for development PHPUnit 9.6
+* `DEFAULT_FORMAT` and `LOSSLESS_FORMAT` are declared in `AbstractDate` instead of the trait `RepresentingDate`, because traits cannot declare constants before PHP 8.2
+* Properties are not `readonly` and constants are not typed
+* `trim()`, `capitalizeFirst()` and `deCapitalizeFirst()` of strings do not use `mb_trim()`, `mb_ucfirst()` and `mb_lcfirst()` of PHP 8.4
+* `fromTimestamp()` of dates does not use `DateTimeImmutable::createFromTimestamp()` of PHP 8.4
+
 ## [2.0.0] - 2026-10-14
 
 ### Changed

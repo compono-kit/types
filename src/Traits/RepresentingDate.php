@@ -8,13 +8,9 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingDate
 {
-	public const string  DEFAULT_FORMAT  = 'Y-m-d H:i:s';
+	private \DateTimeImmutable $dateTime;
 
-	private const string LOSSLESS_FORMAT = 'Y-m-d\TH:i:s.uP';
-
-	private readonly \DateTimeImmutable $dateTime;
-
-	private readonly string             $defaultFormat;
+	private string             $defaultFormat;
 
 	public function __construct( string $dateTime = 'now', ?\DateTimeZone $timeZone = null, string $defaultFormat = 'Y-m-d H:i:s' )
 	{
@@ -56,14 +52,14 @@ trait RepresentingDate
 	{
 		$dateTime = $this->dateTime->add( $dateInterval );
 
-		return new static( $dateTime->format( self::LOSSLESS_FORMAT ), $dateTime->getTimezone(), $this->defaultFormat );
+		return new static( $dateTime->format( 'Y-m-d\TH:i:s.uP' ), $dateTime->getTimezone(), $this->defaultFormat );
 	}
 
 	public function sub( \DateInterval $dateInterval ): static
 	{
 		$dateTime = $this->dateTime->sub( $dateInterval );
 
-		return new static( $dateTime->format( self::LOSSLESS_FORMAT ), $dateTime->getTimezone(), $this->defaultFormat );
+		return new static( $dateTime->format( 'Y-m-d\TH:i:s.uP' ), $dateTime->getTimezone(), $this->defaultFormat );
 	}
 
 	public function diff( RepresentsDate $anotherDate, bool $absolute = false ): \DateInterval
@@ -144,9 +140,9 @@ trait RepresentingDate
 		{
 			return new \DateTimeImmutable( $value );
 		}
-		catch ( \DateMalformedStringException $exception )
+		catch ( \Exception $exception )
 		{
-			throw new InvalidDateException( 'Invalid date: ' . $value, 0, $exception )->setContext( [ 'date-time' => $value ] );
+			throw (new InvalidDateException( 'Invalid date: ' . $value, 0, $exception ))->setContext( [ 'date-time' => $value ] );
 		}
 	}
 }

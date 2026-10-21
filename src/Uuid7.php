@@ -4,7 +4,7 @@ namespace ComponoKit\Types;
 
 class Uuid7 extends AbstractString
 {
-	public const string NIL = '00000000-0000-0000-0000-000000000000';
+	public const NIL = '00000000-0000-0000-0000-000000000000';
 
 	public static function generate(): static
 	{
@@ -14,10 +14,7 @@ class Uuid7 extends AbstractString
 		$data       = hex2bin( $timeHex ) . $rand;
 		$data[6]    = chr( (ord( $data[6] ) & 0x0F) | 0x70 );
 		$data[8]    = chr( (ord( $data[8] ) & 0x3F) | 0x80 );
-		$uuid       = $data
-		              |> bin2hex(...)
-		              |> (fn( $x ) => str_split( $x, 4 ))
-		              |> (fn( $x ) => vsprintf( '%s%s-%s-%s-%s-%s%s%s', $x ));
+		$uuid       = vsprintf( '%s%s-%s-%s-%s-%s%s%s', str_split( bin2hex( $data ), 4 ) );
 
 		return new static( $uuid );
 	}

@@ -10,6 +10,10 @@ abstract class AbstractDate implements RepresentsDate
 {
 	use RepresentingDate;
 
+	public const DEFAULT_FORMAT = 'Y-m-d H:i:s';
+
+	private const LOSSLESS_FORMAT = 'Y-m-d\TH:i:s.uP';
+
 	public function __construct( string $dateTime = 'now', ?\DateTimeZone $timeZone = null, string $defaultFormat = self::DEFAULT_FORMAT )
 	{
 		$this->validate( $dateTime, $timeZone );
@@ -27,7 +31,7 @@ abstract class AbstractDate implements RepresentsDate
 
 	public static function fromTimestamp( int $unixTimestamp, ?\DateTimeZone $timeZone = null ): static
 	{
-		$dateTime = \DateTimeImmutable::createFromTimestamp( $unixTimestamp );
+		$dateTime = new \DateTimeImmutable( '@' . $unixTimestamp );
 
 		if ( null !== $timeZone )
 		{
@@ -50,12 +54,12 @@ abstract class AbstractDate implements RepresentsDate
 		}
 		catch ( \Throwable )
 		{
-			throw new InvalidDateException( 'Invalid ' . static::class )->setContext( $context );
+			throw (new InvalidDateException( 'Invalid ' . static::class ))->setContext( $context );
 		}
 
 		if ( !static::isValid( $dateTimeImmutable ) )
 		{
-			throw new InvalidDateException( 'Invalid ' . static::class )->setContext( $context );
+			throw (new InvalidDateException( 'Invalid ' . static::class ))->setContext( $context );
 		}
 	}
 }

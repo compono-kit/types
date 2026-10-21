@@ -4,7 +4,7 @@ namespace ComponoKit\Types;
 
 class Uuid4 extends AbstractString
 {
-	public const string NIL = '00000000-0000-0000-0000-000000000000';
+	public const NIL = '00000000-0000-0000-0000-000000000000';
 
 	public static function generate(): static
 	{

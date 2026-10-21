@@ -10,6 +10,6 @@ class IntegerFactoryTest extends TestCase
 {
 	public function testBuildingType(): void
 	{
-		$this->assertEquals( new IntegerType( 3 ), new IntegerFactory()->build( 3 ) );
+		$this->assertEquals( new IntegerType( 3 ), (new IntegerFactory())->build( 3 ) );
 	}
 }

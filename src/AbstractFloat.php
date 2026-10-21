@@ -10,7 +10,7 @@ abstract class AbstractFloat implements RepresentsFloat
 {
 	use RepresentingFloat;
 
-	public function __construct( private readonly float $value )
+	public function __construct( private float $value )
 	{
 		$this->validate( $value );
 	}
@@ -26,7 +26,7 @@ abstract class AbstractFloat implements RepresentsFloat
 	{
 		if ( !static::isValid( $value ) )
 		{
-			throw new InvalidFloatException( 'Invalid ' . static::class )->setContext( [ 'value' => $value, ] );
+			throw (new InvalidFloatException( 'Invalid ' . static::class ))->setContext( [ 'value' => $value, ] );
 		}
 	}
 }

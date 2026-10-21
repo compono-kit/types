@@ -7,7 +7,7 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingBoolean
 {
-	public function __construct( private readonly bool $value )
+	public function __construct( private bool $value )
 	{
 	}
 

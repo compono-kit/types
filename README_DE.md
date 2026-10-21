@@ -1,6 +1,6 @@
 # ComponoKit / Types
 
-**Stark typisierte Value Objects für PHP 8.5+**
+**Stark typisierte Value Objects für PHP 8.0+**
 
 Dieses Paket bietet eine leichtgewichtige Grundlage für die Erstellung von *domain-driven*, *immutable* und *type-safe* Value Objects in PHP, die `compono-kit/types-interfaces` implementieren.
 Jeder Typ implementiert seine eigenen Schnittstellen und kann direkt über Traits oder abstrakte Klassen verwendet werden.

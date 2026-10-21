@@ -8,7 +8,7 @@ use ComponoKit\Types\Interfaces\RepresentsType;
 
 trait RepresentingString
 {
-	public function __construct( private readonly string $value )
+	public function __construct( private string $value )
 	{
 	}
 
@@ -54,7 +54,7 @@ trait RepresentingString
 
 	public function trim( string $characters = " \n\r\t\v\x00" ): static
 	{
-		return new static( mb_trim( $this->toString(), $characters ) );
+		return new static( $this->trimMultiByte( $this->toString(), $characters ) );
 	}
 
 	public function replace( array|string|\Stringable $search, array|string|\Stringable $replace ): static
@@ -79,12 +79,12 @@ trait RepresentingString
 
 	public function capitalizeFirst(): static
 	{
-		return new static( mb_ucfirst( $this->toString() ) );
+		return new static( mb_convert_case( mb_substr( $this->toString(), 0, 1 ), MB_CASE_TITLE ) . mb_substr( $this->toString(), 1 ) );
 	}
 
 	public function deCapitalizeFirst(): static
 	{
-		return new static( mb_lcfirst( $this->toString() ) );
+		return new static( mb_strtolower( mb_substr( $this->toString(), 0, 1 ) ) . mb_substr( $this->toString(), 1 ) );
 	}
 
 	/**
@@ -156,5 +156,26 @@ trait RepresentingString
 	public function jsonSerialize(): string
 	{
 		return $this->value;
+	}
+
+	/**
+	 * Replacement of mb_trim(), which is available since PHP 8.4
+	 */
+	private function trimMultiByte( string $value, string $characters ): string
+	{
+		if ( '' === $characters )
+		{
+			return $value;
+		}
+
+		$characterClass = implode(
+			'',
+			array_map(
+				static fn( string $character ): string => sprintf( '\x{%X}', mb_ord( $character ) ),
+				mb_str_split( $characters )
+			)
+		);
+
+		return (string)preg_replace( '/\A[' . $characterClass . ']+|[' . $characterClass . ']+\z/u', '', $value );
 	}
 }

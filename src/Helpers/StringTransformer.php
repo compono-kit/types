@@ -52,32 +52,32 @@ final class StringTransformer
 
 	public static function transformToUpperKebabCase( \Stringable|string $value ): string
 	{
-		return $value |> self::transformToKebabCase( ... ) |> strtoupper( ... );
+		return strtoupper( self::transformToKebabCase( $value ) );
 	}
 
 	public static function transformToLowerKebabCase( \Stringable|string $value ): string
 	{
-		return $value |> self::transformToKebabCase( ... ) |> strtolower( ... );
+		return strtolower( self::transformToKebabCase( $value ) );
 	}
 
 	public static function transformToUpperSnakeCase( \Stringable|string $value ): string
 	{
-		return $value |> self::transformToSnakeCase( ... ) |> strtoupper( ... );
+		return strtoupper( self::transformToSnakeCase( $value ) );
 	}
 
 	public static function transformToLowerSnakeCase( \Stringable|string $value ): string
 	{
-		return $value |> self::transformToSnakeCase( ... ) |> strtolower( ... );
+		return strtolower( self::transformToSnakeCase( $value ) );
 	}
 
 	public static function transformToUpperDotCase( \Stringable|string $value ): string
 	{
-		return $value |> self::transformToDotCase( ... ) |> strtoupper( ... );
+		return strtoupper( self::transformToDotCase( $value ) );
 	}
 
 	public static function transformToLowerDotCase( \Stringable|string $value ): string
 	{
-		return $value |> self::transformToDotCase( ... ) |> strtolower( ... );
+		return strtolower( self::transformToDotCase( $value ) );
 	}
 
 	private static function toCamelCase( string $value, bool $toLowerCamelCase ): string

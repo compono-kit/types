@@ -46,29 +46,29 @@ class DateTest extends TestCase
 
 	public function testEquals(): void
 	{
-		self::assertTrue( new DateType( '2025-11-12 10:30:15' )->equals( new DateType( '2025-11-12 10:30:15' ) ) );
-		self::assertFalse( new DateType( '2025-11-12 10:30:15' )->equals( new DateType( '2025-11-12 21:15:38' ) ) );
-		self::assertFalse( new DateType( '2025-11-12 10:30:15' )->equals( new AnotherDateType( '2025-11-12 10:30:15' ) ) );
+		self::assertTrue( (new DateType( '2025-11-12 10:30:15' ))->equals( new DateType( '2025-11-12 10:30:15' ) ) );
+		self::assertFalse( (new DateType( '2025-11-12 10:30:15' ))->equals( new DateType( '2025-11-12 21:15:38' ) ) );
+		self::assertFalse( (new DateType( '2025-11-12 10:30:15' ))->equals( new AnotherDateType( '2025-11-12 10:30:15' ) ) );
 	}
 
 	public function testEqualsValue(): void
 	{
-		self::assertTrue( new DateType( '2025-11-12 20:57:48' )->equalsValue( new AnotherDateType( '2025-11-12 20:57:48' ) ) );
-		self::assertTrue( new DateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0100' ) )->equalsValue( new AnotherDateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0100' ) ) ) );
-		self::assertFalse( new DateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0100' ) )->equalsValue( new AnotherDateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0200' ) ) ) );
-		self::assertFalse( new DateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0100' ) )->equalsValue( new AnotherDateType( '2025-11-12 20:57:49', new \DateTimeZone( '+0100' ) ) ) );
+		self::assertTrue( (new DateType( '2025-11-12 20:57:48' ))->equalsValue( new AnotherDateType( '2025-11-12 20:57:48' ) ) );
+		self::assertTrue( (new DateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0100' ) ))->equalsValue( new AnotherDateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0100' ) ) ) );
+		self::assertFalse( (new DateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0100' ) ))->equalsValue( new AnotherDateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0200' ) ) ) );
+		self::assertFalse( (new DateType( '2025-11-12 20:57:48', new \DateTimeZone( '+0100' ) ))->equalsValue( new AnotherDateType( '2025-11-12 20:57:49', new \DateTimeZone( '+0100' ) ) ) );
 	}
 
 	public function testToNativeType(): void
 	{
-		$this->assertEquals( '2025-11-12 20:57:48', new DateType( '2025-11-12 20:57:48' )->toNativeType() );
-		$this->assertEquals( '12.11.2025', new DateType( '2025-11-12 20:57:48', null, 'd.m.Y' )->toNativeType() );
+		$this->assertEquals( '2025-11-12 20:57:48', (new DateType( '2025-11-12 20:57:48' ))->toNativeType() );
+		$this->assertEquals( '12.11.2025', (new DateType( '2025-11-12 20:57:48', null, 'd.m.Y' ))->toNativeType() );
 	}
 
 	public function testToString(): void
 	{
-		self::assertEquals( '2025-11-12 10:30:15', new DateType( '2025-11-12 10:30:15', new \DateTimeZone( '+0200' ) )->toString() );
-		self::assertEquals( '2025-11-12T10:30:15+02:00', new DateType( '2025-11-12 10:30:15', new \DateTimeZone( '+0200' ), 'c' )->toString() );
+		self::assertEquals( '2025-11-12 10:30:15', (new DateType( '2025-11-12 10:30:15', new \DateTimeZone( '+0200' ) ))->toString() );
+		self::assertEquals( '2025-11-12T10:30:15+02:00', (new DateType( '2025-11-12 10:30:15', new \DateTimeZone( '+0200' ), 'c' ))->toString() );
 	}
 
 	public function testMagicToString(): void
@@ -79,26 +79,26 @@ class DateTest extends TestCase
 
 	public function testToDateTime(): void
 	{
-		self::assertInstanceOf( \DateTimeInterface::class, new DateType( '2025-11-12 10:30:15' )->toDateTime() );
+		self::assertInstanceOf( \DateTimeInterface::class, (new DateType( '2025-11-12 10:30:15' ))->toDateTime() );
 	}
 
 	public function testAdd(): void
 	{
-		self::assertEquals( new DateType( '2025-11-12 15:30:00' ), new DateType( '2025-11-12 12:30:00' )->add( new \DateInterval( 'PT3H' ) ) );
-		self::assertEquals( new DateType( '2025-11-15 09:30:00' ), new DateType( '2025-11-12 09:30:00' )->add( new \DateInterval( 'P3D' ) ) );
+		self::assertEquals( new DateType( '2025-11-12 15:30:00' ), (new DateType( '2025-11-12 12:30:00' ))->add( new \DateInterval( 'PT3H' ) ) );
+		self::assertEquals( new DateType( '2025-11-15 09:30:00' ), (new DateType( '2025-11-12 09:30:00' ))->add( new \DateInterval( 'P3D' ) ) );
 	}
 
 	public function testSub(): void
 	{
-		self::assertEquals( new DateType( '2025-11-12 07:30:00' ), new DateType( '2025-11-12 10:30:00' )->sub( new \DateInterval( 'PT3H' ) ) );
-		self::assertEquals( new DateType( '2025-11-09 09:30:00' ), new DateType( '2025-11-12 09:30:00' )->sub( new \DateInterval( 'P3D' ) ) );
+		self::assertEquals( new DateType( '2025-11-12 07:30:00' ), (new DateType( '2025-11-12 10:30:00' ))->sub( new \DateInterval( 'PT3H' ) ) );
+		self::assertEquals( new DateType( '2025-11-09 09:30:00' ), (new DateType( '2025-11-12 09:30:00' ))->sub( new \DateInterval( 'P3D' ) ) );
 	}
 
 	public function testDiff(): void
 	{
-		$this->assertEquals( new \DateInterval( 'PT1H' ), new DateType( '1999-12-12 22:59:59' )->diff( new DateType( '1999-12-12 23:59:59' ) ) );
-		$this->assertEquals( new \DateInterval( 'PT1H' ), new DateType( '1999-12-12 23:59:59' )->diff( new DateType( '1999-12-12 22:59:59' ), true ) );
-		$this->assertEquals( new \DateInterval( 'P1D' )->d, new DateType( '1999-12-11 23:59:59' )->diff( new DateType( '1999-12-12 23:59:59' ) )->d );
+		$this->assertEquals( new \DateInterval( 'PT1H' ), (new DateType( '1999-12-12 22:59:59' ))->diff( new DateType( '1999-12-12 23:59:59' ) ) );
+		$this->assertEquals( new \DateInterval( 'PT1H' ), (new DateType( '1999-12-12 23:59:59' ))->diff( new DateType( '1999-12-12 22:59:59' ), true ) );
+		$this->assertEquals( (new \DateInterval( 'P1D' ))->d, (new DateType( '1999-12-11 23:59:59' ))->diff( new DateType( '1999-12-12 23:59:59' ) )->d );
 	}
 
 	public function testIsGreaterThan(): void
@@ -196,31 +196,31 @@ class DateTest extends TestCase
 	{
 		$this->expectException( InvalidDateException::class );
 
-		new DateType( '2025-11-12 09:30:00' )->isGreaterThan( 'invalid' );
+		(new DateType( '2025-11-12 09:30:00' ))->isGreaterThan( 'invalid' );
 	}
 
 	public function testFormat(): void
 	{
-		self::assertEquals( '2025-11-12 10:30:15', new DateType( '2025-11-12 10:30:15', null, 'Y.m.d' )->format( 'Y-m-d H:i:s' ) ); //overriding injected default format
-		self::assertEquals( '2025-11-12T10:30:15+02:00', new DateType( '2025-11-12 10:30:15', new \DateTimeZone( '+0200' ) )->format( 'c' ) );
-		self::assertEquals( '12.11.2025', new DateType( '2025-11-12 10:30:15' )->format( 'd.m.Y' ) );
+		self::assertEquals( '2025-11-12 10:30:15', (new DateType( '2025-11-12 10:30:15', null, 'Y.m.d' ))->format( 'Y-m-d H:i:s' ) ); //overriding injected default format
+		self::assertEquals( '2025-11-12T10:30:15+02:00', (new DateType( '2025-11-12 10:30:15', new \DateTimeZone( '+0200' ) ))->format( 'c' ) );
+		self::assertEquals( '12.11.2025', (new DateType( '2025-11-12 10:30:15' ))->format( 'd.m.Y' ) );
 	}
 
 	public function testGetOffset(): void
 	{
-		self::assertEquals( 7260, new DateType( '2025-11-12 10:30:15', new \DateTimeZone( '+0201' ) )->getOffset() );
+		self::assertEquals( 7260, (new DateType( '2025-11-12 10:30:15', new \DateTimeZone( '+0201' ) ))->getOffset() );
 	}
 
 	public function testGetTimestamp(): void
 	{
-		self::assertEquals( 1762943415, new DateType( '2025-11-12 10:30:15' )->getTimestamp() );
+		self::assertEquals( 1762943415, (new DateType( '2025-11-12 10:30:15' ))->getTimestamp() );
 	}
 
 	public function testGetTimezone(): void
 	{
 		$expectedTimeZone = new \DateTimeZone( '+0200' );
 
-		self::assertEquals( $expectedTimeZone, new DateType( '2025-11-12 10:30:15', $expectedTimeZone )->getTimezone() );
+		self::assertEquals( $expectedTimeZone, (new DateType( '2025-11-12 10:30:15', $expectedTimeZone ))->getTimezone() );
 	}
 
 	public function testJsonSerialize(): void

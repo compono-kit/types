@@ -3,7 +3,6 @@
 namespace ComponoKit\Types\Tests\Unit\Helpers;
 
 use ComponoKit\Types\Helpers\StringTransformer;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class StringTransformerTest extends TestCase
@@ -25,7 +24,9 @@ class StringTransformerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'KebabCaseDataProvider' )]
+	/**
+	 * @dataProvider KebabCaseDataProvider
+	 */
 	public function testToKebabCase( string $anyString, string $expectedString ): void
 	{
 		self::assertEquals( $expectedString, StringTransformer::transformToKebabCase( $anyString ) );
@@ -48,7 +49,9 @@ class StringTransformerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'SnakeCaseDataProvider' )]
+	/**
+	 * @dataProvider SnakeCaseDataProvider
+	 */
 	public function testToSnakeCase( string $anyString, string $expectedString ): void
 	{
 		self::assertEquals( $expectedString, StringTransformer::transformToSnakeCase( $anyString ) );
@@ -72,7 +75,9 @@ class StringTransformerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'DotCaseDataProvider' )]
+	/**
+	 * @dataProvider DotCaseDataProvider
+	 */
 	public function testToDotCase( string $anyString, string $expectedString ): void
 	{
 		self::assertEquals( $expectedString, StringTransformer::transformToDotCase( $anyString ) );
@@ -96,7 +101,9 @@ class StringTransformerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'LowerCamelCaseDataProvider' )]
+	/**
+	 * @dataProvider LowerCamelCaseDataProvider
+	 */
 	public function testToLowerCamelCase( string $anyString, string $expectedString ): void
 	{
 		self::assertEquals( $expectedString, StringTransformer::transformToLowerCamelCase( $anyString ) );
@@ -118,7 +125,9 @@ class StringTransformerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'UpperCamelCaseDataProvider' )]
+	/**
+	 * @dataProvider UpperCamelCaseDataProvider
+	 */
 	public function testToUpperCamelCase( string $anyString, string $expectedString ): void
 	{
 		self::assertEquals( $expectedString, StringTransformer::transformToUpperCamelCase( $anyString ) );

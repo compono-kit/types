@@ -9,7 +9,6 @@ use ComponoKit\Types\Interfaces\RepresentsInteger;
 use ComponoKit\Types\Tests\Unit\fakes\AnotherIntegerType;
 use ComponoKit\Types\Tests\Unit\fakes\NoZeroIntegerType;
 use ComponoKit\Types\Traits\RepresentingInteger;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class IntegerTest extends TestCase
@@ -40,38 +39,38 @@ class IntegerTest extends TestCase
 
 	public function testEquals(): void
 	{
-		self::assertTrue( new IntegerType( 12 )->equals( new IntegerType( 12 ) ) );
-		self::assertTrue( new IntegerType( 0 )->equals( new IntegerType( 0 ) ) );
-		self::assertTrue( new IntegerType( -100 )->equals( new IntegerType( -100 ) ) );
-		self::assertFalse( new IntegerType( -12 )->equals( new IntegerType( 12 ) ) );
-		self::assertFalse( new IntegerType( PHP_INT_MIN )->equals( new IntegerType( PHP_INT_MAX ) ) );
-		self::assertFalse( new IntegerType( 2 )->equals( new AnotherIntegerType( 2 ) ) );
+		self::assertTrue( (new IntegerType( 12 ))->equals( new IntegerType( 12 ) ) );
+		self::assertTrue( (new IntegerType( 0 ))->equals( new IntegerType( 0 ) ) );
+		self::assertTrue( (new IntegerType( -100 ))->equals( new IntegerType( -100 ) ) );
+		self::assertFalse( (new IntegerType( -12 ))->equals( new IntegerType( 12 ) ) );
+		self::assertFalse( (new IntegerType( PHP_INT_MIN ))->equals( new IntegerType( PHP_INT_MAX ) ) );
+		self::assertFalse( (new IntegerType( 2 ))->equals( new AnotherIntegerType( 2 ) ) );
 	}
 
 	public function testToNativeType(): void
 	{
-		self::assertSame( 7, new IntegerType( 7 )->toNativeType() );
+		self::assertSame( 7, (new IntegerType( 7 ))->toNativeType() );
 	}
 
 	public function testToInteger(): void
 	{
-		self::assertSame( 1, new IntegerType( 1 )->toInteger() );
-		self::assertSame( -1, new IntegerType( -1 )->toInteger() );
-		self::assertSame( 0, new IntegerType( 0 )->toInteger() );
+		self::assertSame( 1, (new IntegerType( 1 ))->toInteger() );
+		self::assertSame( -1, (new IntegerType( -1 ))->toInteger() );
+		self::assertSame( 0, (new IntegerType( 0 ))->toInteger() );
 	}
 
 	public function testToFloat(): void
 	{
-		self::assertEquals( 1.0, new IntegerType( 1 )->toFloat() );
-		self::assertEquals( -1.0, new IntegerType( -1 )->toFloat() );
-		self::assertEquals( 0.0, new IntegerType( 0 )->toFloat() );
+		self::assertEquals( 1.0, (new IntegerType( 1 ))->toFloat() );
+		self::assertEquals( -1.0, (new IntegerType( -1 ))->toFloat() );
+		self::assertEquals( 0.0, (new IntegerType( 0 ))->toFloat() );
 	}
 
 	public function testToString(): void
 	{
-		self::assertSame( '1', new IntegerType( 1 )->toString() );
-		self::assertSame( '-1', new IntegerType( -1 )->toString() );
-		self::assertSame( '0', new IntegerType( 0 )->toString() );
+		self::assertSame( '1', (new IntegerType( 1 ))->toString() );
+		self::assertSame( '-1', (new IntegerType( -1 ))->toString() );
+		self::assertSame( '0', (new IntegerType( 0 ))->toString() );
 	}
 
 	public function testMagicToString(): void
@@ -98,7 +97,9 @@ class IntegerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'ComparisonDataProvider' )]
+	/**
+	 * @dataProvider ComparisonDataProvider
+	 */
 	public function testComparingIntegerTypes( int $integerValue, int $anotherIntegerValue, bool $isLess, bool $isEqual, bool $isGreater ): void
 	{
 		$integerType        = new IntegerType( $integerValue );
@@ -119,37 +120,37 @@ class IntegerTest extends TestCase
 
 	public function testIsZero(): void
 	{
-		self::assertTrue( new IntegerType( 0 )->isZero() );
-		self::assertFalse( new IntegerType( -1 )->isZero() );
-		self::assertFalse( new IntegerType( 1 )->isZero() );
+		self::assertTrue( (new IntegerType( 0 ))->isZero() );
+		self::assertFalse( (new IntegerType( -1 ))->isZero() );
+		self::assertFalse( (new IntegerType( 1 ))->isZero() );
 	}
 
 	public function testIsPositive(): void
 	{
-		self::assertFalse( new IntegerType( 0 )->isPositive() );
-		self::assertFalse( new IntegerType( -1 )->isPositive() );
-		self::assertTrue( new IntegerType( 1 )->isPositive() );
+		self::assertFalse( (new IntegerType( 0 ))->isPositive() );
+		self::assertFalse( (new IntegerType( -1 ))->isPositive() );
+		self::assertTrue( (new IntegerType( 1 ))->isPositive() );
 	}
 
 	public function testIsNegative(): void
 	{
-		self::assertFalse( new IntegerType( 0 )->isNegative() );
-		self::assertTrue( new IntegerType( -1 )->isNegative() );
-		self::assertFalse( new IntegerType( 1 )->isNegative() );
+		self::assertFalse( (new IntegerType( 0 ))->isNegative() );
+		self::assertTrue( (new IntegerType( -1 ))->isNegative() );
+		self::assertFalse( (new IntegerType( 1 ))->isNegative() );
 	}
 
 	public function testIsPositiveOrZero(): void
 	{
-		self::assertTrue( new IntegerType( 0 )->isPositiveOrZero() );
-		self::assertFalse( new IntegerType( -1 )->isPositiveOrZero() );
-		self::assertTrue( new IntegerType( 1 )->isPositiveOrZero() );
+		self::assertTrue( (new IntegerType( 0 ))->isPositiveOrZero() );
+		self::assertFalse( (new IntegerType( -1 ))->isPositiveOrZero() );
+		self::assertTrue( (new IntegerType( 1 ))->isPositiveOrZero() );
 	}
 
 	public function testIsNegativeOrZero(): void
 	{
-		self::assertTrue( new IntegerType( 0 )->isNegativeOrZero() );
-		self::assertTrue( new IntegerType( -1 )->isNegativeOrZero() );
-		self::assertFalse( new IntegerType( 1 )->isNegativeOrZero() );
+		self::assertTrue( (new IntegerType( 0 ))->isNegativeOrZero() );
+		self::assertTrue( (new IntegerType( -1 ))->isNegativeOrZero() );
+		self::assertFalse( (new IntegerType( 1 ))->isNegativeOrZero() );
 	}
 
 	public static function AddTestDataProvider(): array
@@ -164,7 +165,9 @@ class IntegerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'AddTestDataProvider' )]
+	/**
+	 * @dataProvider AddTestDataProvider
+	 */
 	public function testAdd( RepresentsInteger $integerType, RepresentsInteger $anotherIntegerType, RepresentsInteger $expectedIntegerType ): void
 	{
 		self::assertEquals( $expectedIntegerType, $integerType->add( $anotherIntegerType ) );
@@ -182,7 +185,9 @@ class IntegerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'SubtractTestDataProvider' )]
+	/**
+	 * @dataProvider SubtractTestDataProvider
+	 */
 	public function testSubtract( RepresentsInteger $integerType, RepresentsInteger $anotherIntegerType, RepresentsInteger $expectedIntegerType ): void
 	{
 		self::assertEquals( $expectedIntegerType, $integerType->subtract( $anotherIntegerType ) );
@@ -200,7 +205,9 @@ class IntegerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'MultiplyTestDataProvider' )]
+	/**
+	 * @dataProvider MultiplyTestDataProvider
+	 */
 	public function testMultiply( RepresentsInteger $integerType, RepresentsInteger $anotherIntegerType, RepresentsInteger $expectedIntegerType ): void
 	{
 		self::assertEquals( $expectedIntegerType, $integerType->multiply( $anotherIntegerType ) );
@@ -220,7 +227,9 @@ class IntegerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'IncrementTestDataProvider' )]
+	/**
+	 * @dataProvider IncrementTestDataProvider
+	 */
 	public function testIncrement( RepresentsInteger $integerType, int $value, RepresentsInteger $expectedIntegerType ): void
 	{
 		self::assertEquals( $expectedIntegerType, $integerType->increment( $value ) );
@@ -241,7 +250,9 @@ class IntegerTest extends TestCase
 		];
 	}
 
-	#[DataProvider( 'DecrementTestDataProvider' )]
+	/**
+	 * @dataProvider DecrementTestDataProvider
+	 */
 	public function testDecrement( RepresentsInteger $integerType, int $value, RepresentsInteger $expectedIntegerType ): void
 	{
 		self::assertEquals( $expectedIntegerType, $integerType->decrement( $value ) );
